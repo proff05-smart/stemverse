@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Calendar - STEMVerse{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4 text-center">📅 STEMVerse Calendar</h2>
+
+  <div id="calendar-container" class="card p-3">
+    <div id="calendar"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<style>
+  /* Ensure the calendar has space */
+  #calendar {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  #calendar-container {
+    min-height: 700px; /* Adjust as needed */
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: 'auto',
+      contentHeight: 'auto',
+      expandRows: true, // Ensures full month shows
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      events: []  // Add events here if needed
+    });
+    calendar.render();
+  });
+</script>
+{% endblock %}

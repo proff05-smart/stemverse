@@ -1,0 +1,47 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Quiz Result{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-3">Quiz Result</h2>
+
+    {% if total > 0 %}
+        <p><strong>Score:</strong> {{ score }} out of {{ total }} ({{ percentage }}%)</p>
+
+        {% if passed %}
+            <p class="text-success">🎉 Great job! You passed the quiz.</p>
+        {% else %}
+            <p class="text-danger">😕 Better luck next time. Keep learning!</p>
+        {% endif %}
+    {% else %}
+        <p><strong>Score:</strong> No questions in this quiz.</p>
+        <p class="text-warning">⚠️ This quiz didn’t contain any questions to evaluate.</p>
+    {% endif %}
+
+    <hr>
+
+    <h4 class="mt-4">Question Review</h4>
+    {% if results %}
+        <ul class="list-group mt-3">
+            {% for result in results %}
+                <li class="list-group-item">
+                    <strong>Q{{ forloop.counter }}: {{ result.question }}</strong><br>
+                    <span>Your answer: 
+                        {% if result.is_correct %}
+                            <span class="text-success">{{ result.user_answer }} ✅</span>
+                        {% else %}
+                            <span class="text-danger">{{ result.user_answer|default:"No answer" }} ❌</span>
+                            <br><small>Correct answer: {{ result.correct_answer }}</small>
+                        {% endif %}
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No questions were answered.</p>
+    {% endif %}
+
+    <a href="{% url 'quiz_home' %}" class="btn btn-primary mt-4">Try Another Quiz</a>
+</div>
+{% endblock %}

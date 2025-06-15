@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Take a STEM Quiz!</h2>
+    <a class="btn btn-primary mb-3" href="{% url 'random_quiz' %}">Random Quiz</a>
+
+    <h4>Or choose a topic:</h4>
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'quiz_by_category' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+<!-- blog/templates/blog/quiz_result.html -->
+{% extends 'blog/base.html' %}
+{% block title %}Your Results - {{ quiz.title }}{% endblock %}
+{% block content %}
+<div class="container text-center">
+  <h2 class="mb-4">Results for {{ quiz.title }}</h2>
+  <div class="alert alert-success">
+    You scored <strong>{{ score }}</strong> out of <strong>{{ total }}</strong>.
+  </div>
+  <a href="{% url 'home' %}" class="btn btn-custom mt-3">Back to Home</a>
+</div>
+{% endblock %}
+<!-- blog/templates/blog/quiz_result.html -->
+{% extends 'blog/base.html' %}
+
+{% block title %}Quiz Results{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+  <h2 class="mb-3">✅ Your Results</h2>
+  <p class="fs-4">You scored <strong>{{ score }}</strong> out of <strong>{{ total }}</strong></p>
+  <a href="{% url 'quiz' %}" class="btn btn-custom mt-3">Try Again</a>
+</div>
+{% endblock %}

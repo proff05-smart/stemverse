@@ -1,0 +1,107 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+
+  {% if site_settings %}
+    <div class="text-center mb-5">
+      {% if site_settings.owner_photo %}
+        <img src="{{ site_settings.owner_photo.url }}" alt="Blog Owner" class="rounded-circle shadow mb-3" width="150" height="150">
+      {% endif %}
+      <h2 class="fw-bold">{{ site_settings.site_name }}</h2>
+      <p class="lead">{{ site_settings.description }}</p>
+    </div>
+  {% endif %}
+
+  <div class="row">
+
+    {% if user.is_authenticated %}
+      <div class="d-flex justify-content-end mb-3">
+        <a href="{% url 'create_post' %}" class="btn btn-success">+ New Post</a>
+      </div>
+    {% endif %}
+
+    <div class="col-md-8">
+      <h2 class="mb-4">Latest Posts</h2>
+      {% for post in page_obj %}
+        <div class="card mb-4">
+          {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+          {% endif %}
+
+          {% if post.video %}
+            <video class="w-100 mb-3" controls>
+              <source src="{{ post.video.url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          {% endif %}
+
+          <div class="card-body">
+            <h4 class="card-title">{{ post.title }}</h4>
+            <p class="card-subtitle mb-2 text-muted">
+              Category:
+              {% if post.category %}
+                <a href="{% url 'category-posts' post.category.slug %}">{{ post.category.name }}</a>
+              {% else %}
+                Uncategorized
+              {% endif %}
+              | Author: {{ post.author.username }}
+            </p>
+            <p class="card-text">{{ post.excerpt|default:post.body|truncatewords:30 }}</p>
+
+            {% if post.slug %}
+              <a href="{% url 'post_detail' post.id post.slug %}" class="btn btn-primary">Read more</a>
+            {% else %}
+              <a href="#" class="btn btn-secondary disabled">Read more (Unavailable)</a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p>No blog posts found.</p>
+      {% endfor %}
+
+      <div class="pagination text-center mt-4">
+        <span class="step-links">
+          {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current mx-2">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+          </span>
+
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          Categories
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for category in categories %}
+            <li class="list-group-item">
+              {% if category.slug %}
+                <a href="{% url 'category-posts' category.slug %}">{{ category.name }}</a>
+              {% else %}
+                {{ category.name }}
+              {% endif %}
+            </li>
+          {% empty %}
+            <li class="list-group-item">No categories available.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

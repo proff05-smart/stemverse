@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="container">
+    <h3>STEM Quiz</h3>
+    <form method="post">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div class="mb-3">
+                <p><strong>{{ forloop.counter }}. {{ question.question_text }}</strong></p>
+                <div><input type="radio" name="q{{ question.id }}" value="A"> A. {{ question.option_a }}</div>
+                <div><input type="radio" name="q{{ question.id }}" value="B"> B. {{ question.option_b }}</div>
+                <div><input type="radio" name="q{{ question.id }}" value="C"> C. {{ question.option_c }}</div>
+                <div><input type="radio" name="q{{ question.id }}" value="D"> D. {{ question.option_d }}</div>
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Submit Answers</button>
+    </form>
+</div>
+{% endblock %}
+<!-- blog/templates/blog/quiz.html -->
+{% extends 'blog/base.html' %}
+
+{% block title %}Take the Quiz{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">🎓 STEMVerse Quiz</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {% for q in questions %}
+      <div class="mb-4 p-3 border rounded bg-light">
+        <strong>Q{{ forloop.counter }}. {{ q.question }}</strong><br>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="{{ q.id }}" value="A" required>
+          <label class="form-check-label">{{ q.option_a }}</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="{{ q.id }}" value="B">
+          <label class="form-check-label">{{ q.option_b }}</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="{{ q.id }}" value="C">
+          <label class="form-check-label">{{ q.option_c }}</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="{{ q.id }}" value="D">
+          <label class="form-check-label">{{ q.option_d }}</label>
+        </div>
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-custom">Submit Quiz</button>
+  </form>
+</div>
+{% endblock %}

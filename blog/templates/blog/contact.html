@@ -1,0 +1,42 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Contact Form -->
+        <div class="col-md-6 mb-4">
+            <h2>Contact Us</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="col-md-6">
+            <h4>Our Contact Info</h4>
+            {% if settings %}
+                <p><strong>Email:</strong> {{ settings.email }}</p>
+                <p><strong>Phone:</strong> {{ settings.phone }}</p>
+                <p><strong>Location:</strong> {{ settings.location }}</p>
+                <p><strong>Follow Us:</strong></p>
+                <p>
+                    {% if settings.twitter %}
+                        <a href="{{ settings.twitter }}" target="_blank">Twitter</a>
+                    {% endif %}
+                    {% if settings.github %}
+                        | <a href="{{ settings.github }}" target="_blank">GitHub</a>
+                    {% endif %}
+                    {% if settings.linkedin %}
+                        | <a href="{{ settings.linkedin }}" target="_blank">LinkedIn</a>
+                    {% endif %}
+                </p>
+            {% else %}
+                <p>No contact information available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

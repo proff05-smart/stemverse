@@ -165,3 +165,7 @@ MIDDLEWARE = [
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+import os
+SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-default')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+

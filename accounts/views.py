@@ -10,17 +10,19 @@ from .forms import ProfileUpdateForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 # Handle user registration
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save()  # Don't create Profile manually here
             messages.success(request, 'Account created! You can now log in.')
             return redirect('login')
     else:
         form = UserCreationForm()
-    
+
     return render(request, 'accounts/register.html', {'form': form})
+
 
 
 
@@ -30,13 +32,18 @@ def profile(request):
 
 
 
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .forms import ProfileUpdateForm
+
 @login_required
 def profile(request):
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('profile')  # Redirect to the same page after successful update
     else:
         form = ProfileUpdateForm(instance=request.user.profile)
 

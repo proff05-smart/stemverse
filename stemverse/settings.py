@@ -169,3 +169,6 @@ import os
 SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-default')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

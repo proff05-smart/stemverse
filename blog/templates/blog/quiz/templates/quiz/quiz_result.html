@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+{% block title %}Quiz Results{% endblock %}
+{% block content %}
+<div class="container text-center">
+  <h2 class="mb-3">🎉 Your Score</h2>
+  <div class="alert alert-success fs-4">
+    You got {{ score }} out of {{ total }} questions correct!
+  </div>
+  <a href="{% url 'quiz_home' %}" class="btn btn-custom">Try Again</a>
+</div>
+{% endblock %}

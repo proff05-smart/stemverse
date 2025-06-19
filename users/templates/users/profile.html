@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ profile_user.username }}'s Profile</h2>
+<p>Email: {{ profile_user.email }}</p>
+{% endblock %}
+<!-- Add inside profile.html, maybe at the top -->
+{% if request.user == profile.user %}
+  <a href="{% url 'profile_edit' profile.user.username %}">Edit Profile</a>
+{% endif %}

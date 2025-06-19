@@ -1,0 +1,20 @@
+
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>{{ profile_user.username }}'s Profile</h2>
+
+    {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="{{ profile_user.username }}'s avatar" class="img-thumbnail" width="150">
+    {% else %}
+        <p>No avatar uploaded.</p>
+    {% endif %}
+
+    <p><strong>Bio:</strong> {{ profile.bio|default:"No bio provided." }}</p>
+
+    {% if user == profile_user %}
+      <a class="btn btn-secondary mt-3" href="{% url 'edit_profile' %}">Edit Profile</a>
+    {% endif %}
+  </div>
+{% endblock %}

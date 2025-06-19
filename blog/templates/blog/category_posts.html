@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <h2 class="mb-4">Posts in "{{ category.name }}"</h2>
+
+  {% for post in posts %}
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="card-title">
+          <a href="{% url 'post-detail' post.id post.slug %}">{{ post.title }}</a>
+        </h4>
+        <p class="text-muted mb-2">
+          by <a href="{% url 'profile' post.author.username %}">{{ post.author.username }}</a> |
+          Published on {{ post.created|date:"F j, Y" }}
+        </p>
+        <p class="card-text">
+          {{ post.excerpt|default:post.body|truncatewords:30 }}
+        </p>
+        <a href="{% url 'post-detail' post.id post.slug %}" class="btn btn-primary">Read more</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>No posts in this category yet.</p>
+  {% endfor %}
+{% endblock %}
